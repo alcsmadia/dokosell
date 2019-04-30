@@ -59,6 +59,7 @@ class myController extends Controller // Controllerクラスの承継
         $shop_posted = $request->input('shop');
         $ten = array('支店','店');
         $branch_posted = str_replace($ten, "", $request->input('branch'));
+        $amount_posted = $request->input('amount');
         $yen = array('円','\\','￥', '￥');
         $money_posted = str_replace($yen, "", $request->input('money'));
         $comment_posted = $request->input('comment');        
@@ -68,6 +69,7 @@ class myController extends Controller // Controllerクラスの承継
         $all_data->item = $item_posted; // itemプロパティに，Requestのnameパラメータを設定
         $all_data->shop = $shop_posted;
         $all_data->branch = $branch_posted;
+        $all_data->amount = $amount_posted;
         $all_data->money = $money_posted;
         $all_data->comment = $comment_posted;
         $all_data->date = $date_posted;
@@ -82,7 +84,7 @@ class myController extends Controller // Controllerクラスの承継
 
         // shopsの更新
         Shop::updateOrCreate(['name'=> $shop_posted, 'branch'=> $branch_posted]);
-        $branch_added = Shop::where('branch', $branch_posted)->first();
+        $branch_added = Shop::where('name', $shop_posted)->where('branch', $branch_posted)->first();
 
         // item_shop
         $item_added->middle()->updateOrcreate(
@@ -93,7 +95,7 @@ class myController extends Controller // Controllerクラスの承継
 
         // info
         $middle_added->information()->updateOrcreate(
-            ['money' => $money_posted, 'comment' => $comment_posted, 'date' => $date_posted]
+            ['amount' => $amount_posted, 'money' => $money_posted, 'comment' => $comment_posted, 'date' => $date_posted]
         );
 
         return view('add', ['status' => True, 'all_datas' => $all_datas]); // リダイレクトして一覧表示

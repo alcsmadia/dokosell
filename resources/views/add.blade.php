@@ -33,6 +33,7 @@
 
         <details>
         <summary>詳細情報を追加（任意）</summary>
+        <input type="text" name="amount" class="form-control" placeholder="数量（※任意）" autocomplete="off">
         <input type="text" name="branch" class="form-control" placeholder="支店（※任意）" autocomplete="off">
         <input type="text" name="money" class="form-control" placeholder="金額（※任意）" autocomplete="off">
         <input type="date" name="date"
@@ -58,6 +59,7 @@
         <thead>
             <th>date</th>
             <th>item</th>
+            <th>量や個数</th>
             <th>shop</th>
             <th>branch</th>
             <th>金額</th>
@@ -70,6 +72,7 @@
                     <!-- Task Name -->
                     <td>{{ $all_data->date }}</td>
                     <td>{{ $all_data->item }}</td>
+                    <td>{{ $all_data->amount }}</td>
                     <td>{{ $all_data->shop }}</td>
                     <td>{{ $all_data->branch }}</td>
                     <td>{{ $all_data->money }}</td>

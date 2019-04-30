@@ -25,7 +25,7 @@
 
     <table class="table table-striped task-table">
         <thead>
-            <th>商品名</th><th>店</th><th>支店</th><th>金額・コメント</th>
+            <th>商品名</th><th>個数や量</th><th>店</th><th>支店</th><th>金額・コメント</th>
         </thead>
 
         <tbody>
@@ -33,6 +33,15 @@
                 @foreach ((object)$item->middle as $middle)<!-- nullのときのためにobjuctに変換 -->
                     <tr>
                         <td>{{$item->name}}</td>
+                        <td>
+                            @foreach ((object)$middle->information as $info)
+                                <?php
+                                if ($info->money) {
+                                    echo $info->amount;
+                                }
+                                ?></span><br>
+                            @endforeach
+                        </td>
                         <td>{{$middle->shop->name}}</td>
                         <td>
                         <?php
@@ -62,6 +71,5 @@
         </tbody>
     </table>
 
-{{$items->first()->middle->first()->shop_id}}
 <p><span class="u"><a href="/add">商品の登録に協力してください！</a></span></p>
 @endsection
