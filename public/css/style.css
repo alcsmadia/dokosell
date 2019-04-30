@@ -1,0 +1,106 @@
+﻿h1 {
+margin-top:30px;
+overflow: hidden;
+}
+
+/* index */
+.top{
+margin-top:20%;
+}
+@media (max-width: 768px) {/* スマホのとき */
+.top{
+margin-top:55%;
+}
+}
+
+/* result */
+span.u {
+    text-decoration: underline;
+}
+span.gray {
+    background-color:rgb(240, 236, 236);
+}
+span.right {
+    text-align: right;
+}
+form {
+    padding-bottom: 1%;
+}
+.middle-font {
+    font-size: x-large;
+    letter-spacing: 1.5px;
+}
+
+/* パンくず */
+nav {
+    margin-top:3px;
+    text-align: right;
+}
+
+nav ul li {
+    /* liを横並び＆ブレットを消す */
+    display: inline;
+    list-style-type: none;
+}
+
+nav ul li:before {
+    /* liの前に記号追加 */
+    content: " > ";
+}
+
+nav ul li:first-child:before {
+    /* 最初のliだけcontentを消す */
+    content:"";
+}
+
+/* h1をリンクとする場合 */
+a, a:link, a:visited, a:hover, a:active{
+color: #888;
+}
+
+/* add */
+.errors {
+    width: 300px;
+    padding-top: 10px;
+    padding-left: 10px;
+    margin-bottom: 20px;
+    font-size: 12px;
+    color: #e95353;
+    border: 1px solid #e95353;
+    background-color: #f2dede;
+}
+
+.complete {
+    padding: 10px 0px 0px 10px;
+    margin-bottom: 20px;
+    width: 290px;
+    font-size: 12px;
+    color: #2a88bd;
+    border: 1px solid #2a88bd;
+    background-color: #a6e1ec;
+}
+
+summary {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+details[open] summary {
+    margin-bottom: .5em;
+}
+
+input[type="text"]{
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+input[type="date"]{
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.table-scroll {
+    overflow-x: auto;
+}
