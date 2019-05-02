@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Information extends Model
 {
-    protected $fillable = ['money', 'comment', 'date'];
+    protected $fillable = ['amount', 'money', 'comment', 'date'];
 
     public function middle()
     {

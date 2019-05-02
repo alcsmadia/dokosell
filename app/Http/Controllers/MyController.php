@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Search_log;
 use App\All_data; // モデルall_dataのクラスを"all_data"として扱えるように
 use App\Item;
 use App\Item_Shop;
@@ -18,23 +19,34 @@ class myController extends Controller // Controllerクラスの承継
     public function search(Request $request)
     {
         $query = $request->input('q');
+
+        $sub = DB::table('subjects as n')
+        ->select('n.id as negotiate_id', DB::raw('count(m.id) as cnt'))
+        ->leftJoin('messages as m', 'n.id', '=', 'm.negotiate_id')
+        ->where('n.buyer_user_id', 値)
+        ->where('m.is_read', 0)
+        ->groupBy('negotiate_id');
         
         if ( $query ){
             $items = Item::with('middle.shop', 'middle.information')
                 -> where('name', 'LIKE', "%$query%")
                 -> get();
             
+            $count = 0;
             if ( $items ) {
-                $count = 0;
                 foreach($items as $item){
                     foreach($item->middle as $middle){
                         $count += 1;
                     }
                 }
-            } else {
-                $count = 0;
             }
-            return view('result', ['query' => $query, 'count' => $count, 'items' => $items]);
+
+            $log = new Search_log; // all_dataのオブジェクトを作成
+            $log->query = $query; // itemプロパティに，Requestのnameパラメータを設定
+            $log->counts = $count;
+            $log->save();
+
+            return view('result', ['query' => $query, 'count' => $count, 'items' => $items, 'tests' => $sub]);
         } else {
             return view('result', ['query' => $query, 'count' => 0, 'items' => array()]);
         }
