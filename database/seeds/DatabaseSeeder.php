@@ -28,13 +28,23 @@ class DatabaseSeeder extends Seeder
         $lineCount = 1;
         foreach($file as $line) {
             if ($lineCount > 1) { // ヘッダー行はスキップする
+                $item_posted = $line[2];
+                $shop_posted = $line[0];
+                $ten = array('支店','店');
+                $branch_posted = str_replace($ten, "", $line[1]);
+                $amount_posted = $line[3];
+                $yen = array('円','\\','￥', '￥');
+                $money_posted = str_replace($yen, "", $line[4]);
+                $comment_posted = $line[5];        
+                $date_posted = $line[6];
+
                 mb_convert_variables('UTF-8', 'sjis-win', $line);
                 $all_data[] = [
-                    "shop" => $line[0],
-                    "branch" => $line[1],
-                    "item" => $line[2],
+                    "shop" => $shop_posted,
+                    "branch" => $branch_posted,
+                    "item" => $item_posted,
                     "amount" => $line[3],
-                    "money" => $line[4],
+                    "money" => $money_posted,
                     "comment" => $line[5],
                     "date" => $line[6],
                     "created_at" => $now,
@@ -42,12 +52,12 @@ class DatabaseSeeder extends Seeder
                 ];
 
                 // itemsの更新
-                Item::updateOrCreate(['name'=> $line[2]]);
-                $item_added = Item::where('name', $line[2])->first();
+                Item::updateOrCreate(['name'=> $item_posted);
+                $item_added = Item::where('name', $item_posted)->first();
 
                 // shopsの更新
-                Shop::updateOrCreate(['name'=> $line[0], 'branch'=> $line[1]]);
-                $branch_added = Shop::where('name', $line[0])->where('branch', $line[1])->first();
+                Shop::updateOrCreate(['name'=> $shop_posted, 'branch'=> $branch_posted);
+                $branch_added = Shop::where('name', $shop_posted)->where('branch', $branch_posted)->first();
 
                 // item_shop
                 $item_added->middle()->updateOrcreate(
@@ -58,7 +68,7 @@ class DatabaseSeeder extends Seeder
 
                 // info
                 $middle_added->information()->updateOrcreate(
-                    ['amount' => $line[3], 'money' => $line[4], 'comment' => $line[5], 'date' => $line[6]]
+                    ['amount' => $line[3], 'money' => $money_posted, 'comment' => $line[5], 'date' => $line[6]]
                 );
             }
             $lineCount++;

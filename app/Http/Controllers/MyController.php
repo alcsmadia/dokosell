@@ -19,26 +19,17 @@ class myController extends Controller // Controllerクラスの承継
     public function search(Request $request)
     {
         $query = $request->input('q');
-
-        $sub = DB::table('subjects as n')
-        ->select('n.id as negotiate_id', DB::raw('count(m.id) as cnt'))
-        ->leftJoin('messages as m', 'n.id', '=', 'm.negotiate_id')
-        ->where('n.buyer_user_id', 値)
-        ->where('m.is_read', 0)
-        ->groupBy('negotiate_id');
         
         if ( $query ){
-            $items = Item::with('middle.shop', 'middle.information')
-                -> where('name', 'LIKE', "%$query%")
+            $info = Item_Shop::with('item', 'shop', 'information')
+                -> whereItem('items.name', 'like', '%' . addcslashes($query, '\_%') . '%')
+                -> orderByLowestMoney()
                 -> get();
             
-            $count = 0;
-            if ( $items ) {
-                foreach($items as $item){
-                    foreach($item->middle as $middle){
-                        $count += 1;
-                    }
-                }
+            if ( $info ) {
+                $count = $info->count();
+            } else {
+                $count = 0;
             }
 
             $log = new Search_log; // all_dataのオブジェクトを作成
@@ -46,7 +37,7 @@ class myController extends Controller // Controllerクラスの承継
             $log->counts = $count;
             $log->save();
 
-            return view('result', ['query' => $query, 'count' => $count, 'items' => $items, 'tests' => $sub]);
+            return view('result', ['query' => $query, 'count' => $count, 'items' => $info]);
         } else {
             return view('result', ['query' => $query, 'count' => 0, 'items' => array()]);
         }

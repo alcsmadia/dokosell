@@ -25,51 +25,48 @@
 
     <table class="table table-striped task-table">
         <thead>
-            <th>商品名</th><th>個数や量</th><th>店</th><th>支店</th><th>金額・コメント</th>
+            <th>商品名</th><th>店</th><th>支店</th><th>量</th><th>金額・コメント</th>
         </thead>
 
         <tbody>
             @foreach ((object)$items as $item)<!-- nullのときのためにobjuctに変換 -->
-                @foreach ((object)$item->middle as $middle)<!-- nullのときのためにobjuctに変換 -->
-                    <tr>
-                        <td>{{$item->name}}</td>
-                        <td>
-                            @foreach ((object)$middle->information as $info)
-                                <?php
-                                if ($info->money) {
-                                    echo $info->amount;
-                                }
-                                ?></span><br>
-                            @endforeach
-                        </td>
-                        <td>{{$middle->shop->name}}</td>
-                        <td>
-                        <?php
-                            if ($middle->shop->branch) {
-                                echo $middle->shop->branch."店 "."(<span class='u'><a href='https://www.google.co.jp/maps/search/".$middle->shop->name."+".$middle->shop->branch."'>map</a></span>)";
-                            } else {
-                                echo "未登録";
+                <tr>
+                    <td>{{$item->item->name}}</td>
+                    <td>{{$item->shop->name}}</td>
+                    <td>
+                    <?php
+                        if ($item->shop->branch) {
+                            echo $item->shop->branch."店 "."(<span class='u'><a href='https://www.google.co.jp/maps/search/".$item->shop->name."+".$item->shop->branch."' target='_blank'>map</a></span>)";
+                        } else {
+                            echo "未登録";
+                        }
+                    ?>
+                    </td>
+                    <td>
+                        @foreach ($item->information->sortBy('money') as $info)
+                            <?php
+                            if ($info->amount) {
+                                echo $info->amount;
                             }
-                        ?>
-                        </td>
-                        <td>
-                            @foreach ((object)$middle->information as $info)
-                                <span class="gray">・{{$info->date}}</span>
-                                <?php
-                                if ($info->money) {
-                                    echo "<br>".$info->money."円";
-                                }
-                                if ($info->comment) {
-                                    echo "<br>".$info->comment;
-                                }
-                                ?></span><br>
-                            @endforeach
-                        </td>
-                    </tr>
-                @endforeach
+                            ?></span><br>
+                        @endforeach
+                    </td>
+                    <td>
+                        @foreach ($item->information->sortBy('money') as $info)
+                            <span class="gray">・{{$info->date}}</span>
+                            <?php
+                            if ($info->money) {
+                                echo "<br>".$info->money." 円";
+                            }
+                            if ($info->comment) {
+                                echo "<br>".$info->comment;
+                            }
+                            ?></span><br>
+                        @endforeach
+                    </td>
+                </tr>
             @endforeach
         </tbody>
     </table>
-
 <p><span class="u"><a href="/add">商品の登録に協力してください！</a></span></p>
 @endsection
