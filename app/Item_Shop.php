@@ -19,13 +19,13 @@ class Item_Shop extends Pivot
                 $join->on('information.item_shop_id', '=', 'filter.item_shop_id');
                 $join->on(function (JoinClause $join) {
                     $join->on('information.id', '>', 'filter.id');
-                    $join->on('information.money', '=', 'filter.money');
-                    $join->Oron('information.money', '>', 'filter.money');
+                    $join->on('information.cospa', '=', 'filter.cospa');
+                    $join->Oron('information.cospa', '>', 'filter.cospa');
                 });
             })
             ->whereNull('filter.id')
             ->select('item_shop.*')
-            ->orderBy('information.money')
+            ->orderBy('information.cospa')
             ->orderBy('information.id');
     }
 

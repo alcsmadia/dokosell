@@ -65,18 +65,16 @@ class myController extends Controller // Controllerクラスの承継
         $amount_posted = $request->input('amount');
         $yen = array('円','\\','￥', '￥');
         $money_posted = str_replace($yen, "", $request->input('money'));
+        if ($amount_posted && $money_posted) {
+            $cospa = $money_posted / preg_replace('/[^0-9]/', '', $amount_posted);
+        } else {
+            $cospa = $money_posted;
+        }
         $comment_posted = $request->input('comment');        
         $date_posted = $request->input('date');
-
+        
         $all_data = new All_data; // all_dataのオブジェクトを作成
-        $all_data->item = $item_posted; // itemプロパティに，Requestのnameパラメータを設定
-        $all_data->shop = $shop_posted;
-        $all_data->branch = $branch_posted;
-        $all_data->amount = $amount_posted;
-        $all_data->money = $money_posted;
-        $all_data->comment = $comment_posted;
-        $all_data->date = $date_posted;
-        $all_data->save();
+        $all_data->storeAll($item_posted, $shop_posted, $branch_posted, $amount_posted, $money_posted, $cospa, $comment_posted, $date_posted);
 
         $all_datas = All_data::orderBy('updated_at', 'desc')
         ->take(10)->get(); // 10をデータベースから取得

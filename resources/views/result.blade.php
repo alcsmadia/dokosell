@@ -25,7 +25,7 @@
 
     <table class="table table-striped task-table">
         <thead>
-            <th>商品名</th><th>店</th><th>支店</th><th>量</th><th>金額・コメント</th>
+            <th>商品名</th><th>店</th><th>支店</th><th>金額・コメント</th>
         </thead>
 
         <tbody>
@@ -43,20 +43,16 @@
                     ?>
                     </td>
                     <td>
-                        @foreach ($item->information->sortBy('money') as $info)
+                        @foreach ($item->information->sortBy('cospa') as $info)
+                            <span class="gray">・{{$info->date}}</span><br>
                             <?php
                             if ($info->amount) {
-                                echo $info->amount;
+                                echo $info->amount."：";
                             }
-                            ?></span><br>
-                        @endforeach
-                    </td>
-                    <td>
-                        @foreach ($item->information->sortBy('money') as $info)
-                            <span class="gray">・{{$info->date}}</span>
-                            <?php
-                            if ($info->money) {
-                                echo "<br>".$info->money." 円";
+                            if ($info->money && $info->money != round($info->cospa)) {
+                                echo $info->money." 円（コスパ ".$info->cospa."）";
+                            } else {
+                                echo $info->money." 円";
                             }
                             if ($info->comment) {
                                 echo "<br>".$info->comment;
