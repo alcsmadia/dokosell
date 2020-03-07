@@ -79,3 +79,11 @@ app/Http/Controllers/TaskController.php:
 
 ○ビュー作成
 resources/views/
+
+---
+# MVC model
+![MVC](https://user-images.githubusercontent.com/15546605/76137527-7ba9e180-6081-11ea-9c40-16a890261554.png)
+
+---
+# Table construction
+![fc3fde9ee868031536d708dc6f6a5a10](https://user-images.githubusercontent.com/15546605/76137532-7fd5ff00-6081-11ea-91d5-ced321541691.png)
