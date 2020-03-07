@@ -36,7 +36,7 @@
                     <td>
                     <?php
                         if ($item->shop->branch) {
-                            echo $item->shop->branch."店 "."(<span class='u'><a href='https://www.google.co.jp/maps/search/".$item->shop->name."+".$item->shop->branch."' target='_blank'>map</a></span>)";
+                            echo $item->shop->branch."店 "."(<span class='u'><a href='https://www.google.co.jp/maps/search/".$item->shop->name."+".$item->shop->branch."店' target='_blank'>map</a></span>)";
                         } else {
                             echo "未登録";
                         }
@@ -50,7 +50,7 @@
                                 echo $info->amount."：";
                             }
                             if ($info->money && $info->money != round($info->cospa)) {
-                                echo $info->money." 円（コスパ ".$info->cospa."）";
+                                echo $info->money." 円<br>- 単位あたり ".$info->cospa;
                             } else {
                                 echo $info->money." 円";
                             }

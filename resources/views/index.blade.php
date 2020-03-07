@@ -23,4 +23,6 @@
             </div>
         </div>
     </form>
+
+<p><span class="u"><a href="/add">商品の登録に協力してください！</a></span></p>
 @endsection
